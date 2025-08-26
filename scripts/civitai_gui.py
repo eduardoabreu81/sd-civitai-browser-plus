@@ -238,6 +238,7 @@ def on_ui_tabs():
                         placeholder="Enter model name or hash", 
                         elem_id="searchBox"
                     )
+                    refresh = gr.Button(value="Atualizar", elem_id="refreshbtn", icon="refresh")
                 with gr.Row(elem_id=header):
                     with gr.Row(elem_id="pageBox"):
                         get_prev_page = gr.Button(value="Prev page", interactive=False, elem_id="pageBtn1")
