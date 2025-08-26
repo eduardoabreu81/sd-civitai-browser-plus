@@ -694,18 +694,19 @@ def find_and_save(api_response, sha256=None, file_name=None, json_file=None, no_
             for file in model_version.get('files', []):
                 file_name_api = file.get('name', '')
                 sha256_api = file.get('hashes', {}).get('SHA256', '')
-                
-                if file_name == file_name_api if no_hash else sha256 == sha256_api:
+
+                # Priorizar validação por hash
+                if sha256 and sha256 == sha256_api:
                     gl.json_info = item
                     trained_words = model_version.get('trainedWords', [])
-                    
+
                     if save_desc:
                         description = item.get('description', '')
-                        if description != None:
+                        if description is not None:
                             description = clean_description(description)
-                    
+
                     base_model = model_version.get('baseModel', '')
-                    
+
                     if base_model.startswith("SD 1"):
                         base_model = "SD1"
                     elif base_model.startswith("SD 2"):
@@ -714,7 +715,7 @@ def find_and_save(api_response, sha256=None, file_name=None, json_file=None, no_
                         base_model = "SDXL"
                     else:
                         base_model = "Other"
-                    
+
                     if isinstance(trained_words, list):
                         trained_tags = ",".join(trained_words)
                         trained_tags = re.sub(r'<[^>]*:[^>]*>', '', trained_tags)
@@ -722,7 +723,6 @@ def find_and_save(api_response, sha256=None, file_name=None, json_file=None, no_
                         trained_tags = trained_tags.strip(', ')
                     else:
                         trained_tags = trained_words
-                    
                     if os.path.exists(json_file):
                         with open(json_file, 'r', encoding="utf-8") as f:
                             try:
