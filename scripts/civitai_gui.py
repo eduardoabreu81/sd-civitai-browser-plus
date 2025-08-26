@@ -967,18 +967,9 @@ def on_ui_tabs():
         )
         
         organize_models.click(
-            fn=_file.organize_start,
-            inputs=[organize_start],
-            outputs=[
-                organize_start,
-                organize_models,
-                cancel_organize,
-                load_installed,
-                ver_search,
-                save_all_tags,
-                update_preview,
-                organize_progress
-            ]
+            fn=_file.file_scan,
+            inputs=file_scan_inputs,
+            outputs=[organize_progress, organize_finish]
         )
         
         cancel_organize.click(
